@@ -1,0 +1,14 @@
+pgmpy>=1.1.2
+numpy>=1.26
+pandas>=2.2
+scikit-learn>=1.4
+scipy>=1.12
+matplotlib>=3.8
+seaborn>=0.13
+networkx>=3.2
+tqdm>=4.66
+jupyter>=1.0
+
+# Note: fancyimpute (for Soft-Impute) is intentionally left out here -- it
+# does not install cleanly on newer Python versions (3.12/3.13). We'll pick
+# a working Soft-Impute implementation when we reach that part of Phase 2.

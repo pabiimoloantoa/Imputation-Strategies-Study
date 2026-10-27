@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+
+# Data (keep small generated files, ignore anything large/raw you add later)
+data/raw/*
+!data/raw/.gitkeep
+
+# Research datasets and generated CSV files
+data/**/*.csv
