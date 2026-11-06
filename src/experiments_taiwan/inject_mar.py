@@ -17,14 +17,14 @@ MAX_PROBABILITY = 0.95      # same safety ceiling as RQ1
 
 
 def bin_states(x, n_bins=N_BINS):
-    """Same rule as the Discretizer: quantile edges, ties merged, ordered low to high."""
+   
     qs = np.linspace(0, 1, n_bins + 1)[1:-1]
     edges = np.unique(np.quantile(x, qs))
     return np.searchsorted(edges, x, side="right"), edges
 
 
 def derive_cpt(marginal, target):
-    """P(missing | parent state) = k * multiplier, scaled so the average equals target (as in RQ1)."""
+    
     multipliers = np.array([1 + 0.5 * i for i in range(len(marginal))])
     k = target / float((marginal * multipliers).sum())
     return np.minimum(k * multipliers, MAX_PROBABILITY)
@@ -67,9 +67,9 @@ def main():
             audit["achieved_rates"][f"{pct}pct"] = {}
             for v in vm:
                 p = r_parents[v]
-                cpt = derive_cpt(parent_marginal[p], level)             # P(missing | state)
-                row_prob = cpt[parent_state[p]]                         # each customer's chance
-                is_missing = rng.random(len(df)) < row_prob             # independent draw per level
+                cpt = derive_cpt(parent_marginal[p], level)           
+                row_prob = cpt[parent_state[p]]                         
+                is_missing = rng.random(len(df)) < row_prob             
                 out.loc[is_missing, v] = np.nan
 
                 audit["cpts"][f"{pct}pct"][v] = [round(float(c), 4) for c in cpt]

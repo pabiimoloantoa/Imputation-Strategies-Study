@@ -7,7 +7,8 @@ RES = PROJECT_ROOT / "results" / "rq2"
 FIG_DIR = RES / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
-d = pd.read_csv(RES / "fold_scores_repeated.csv")
+N_HASH = 5
+d = pd.concat([pd.read_csv(RES / f"fold_scores_repeated_obsbins_hash{h}.csv").assign(hash=h) for h in range(N_HASH)])
 df = load_pima()
 y = df["Outcome"].to_numpy()
 
@@ -18,13 +19,13 @@ for seed in d["seed"].unique():
         P = int(y[te].sum())
         size[(int(seed), k)] = (P, len(te) - P)
 
-# rebuild the four counts for every run, checking each one
+# rebuild the four counts for every run, checking each one against the saved scores
 rows = []
 for r in d.itertuples():
     P, N = size[(int(r.seed), int(r.fold))]
     tp = round(r.recall * P)
     if tp == 0:
-        raise ValueError(f"No true positives in {r.method} seed {r.seed} fold {r.fold}")
+        raise ValueError(f"No true positives in {r.method}, hash {r.hash}, seed {r.seed}, fold {r.fold}")
     fn = P - tp
     fp = round(tp / r.precision - tp)
     tn = N - fp
@@ -34,7 +35,9 @@ for r in d.itertuples():
     rows.append({"method": r.method, "tn": tn, "fp": fp, "fn": fn, "tp": tp})
 
 cm = pd.DataFrame(rows).groupby("method")[["tn", "fp", "fn", "tp"]].sum()
-cm.to_csv(RES / "confusion_counts.csv")
+cm["recall"] = (cm.tp / (cm.tp + cm.fn)).round(3)
+cm["specificity"] = (cm.tn / (cm.tn + cm.fp)).round(3)
+cm.to_csv(RES / "confusion_counts_pooled.csv")
 print(cm)
 
 order = ["Median", "EM", "MICE", "SoftImpute"]
@@ -45,11 +48,12 @@ fig, axes = plt.subplots(2, 2, figsize=(8, 7.2))
 for ax, m, title in zip(axes.ravel(), order, titles):
     c = cm.loc[m]
     counts = [[c["tn"], c["fp"]], [c["fn"], c["tp"]]]
-    share = [[v / sum(row) for v in row] for row in counts]      # share of each actual class
+    share = [[v / sum(row) for v in row] for row in counts]       # share of each actual class
     ax.imshow(share, cmap="Blues", vmin=0, vmax=1)
     for i in range(2):
         for j in range(2):
-            ax.text(j, i, f"{100 * share[i][j]:.1f}%\n(n = {int(counts[i][j])})",
+            n = counts[i][j] / N_HASH                             # average per hash seed
+            ax.text(j, i, f"{100 * share[i][j]:.1f}%\n(n = {n:,.0f})",
                     ha="center", va="center", fontsize=10,
                     color="white" if share[i][j] > 0.5 else "black")
     ax.set_xticks([0, 1])

@@ -4,11 +4,6 @@ from sklearn.tree import DecisionTreeRegressor
 
 
 class MICEImputer:
-    """Chained-equations imputation with decision-tree models (continuous data).
-
-    fit(train)     -> fills the training data and keeps one tree per column with blanks
-    transform(new) -> fills blanks in new rows (e.g. the test fold) using those trees
-    """
 
     def __init__(self, n_iterations=10, min_samples_leaf=5, random_state=0):
         self.n_iterations = n_iterations
@@ -16,7 +11,7 @@ class MICEImputer:
         self.random_state = random_state
 
     def _initial_fill(self, df, miss, rng):
-        """Start: fill each blank with a random draw from that column's training values."""
+       
         cur = df.copy()
         for col in self.targets_:
             n = miss[col].sum()

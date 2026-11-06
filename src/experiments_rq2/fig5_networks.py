@@ -1,7 +1,7 @@
 """
 Usage:
     python fig5_networks.py
-    python fig5_networks.py --threshold 15
+    python fig5_networks.py --threshold 100
 """
 
 import argparse
@@ -13,7 +13,7 @@ from matplotlib.lines import Line2D
 from matplotlib.patches import FancyBboxPatch, FancyArrowPatch, Patch
 
 PROJECT_ROOT = Path(__file__).resolve().parent.parent.parent
-EDGES_CSV = PROJECT_ROOT / "results" / "rq2" / "edge_counts.csv"
+EDGES_CSV = PROJECT_ROOT / "results" / "rq2" / "edges_pooled.csv"
 FIGURES_DIR = PROJECT_ROOT / "results" / "rq2" / "figures"
 
 VO_COLOR, VO_EDGE = "#B5D4F4", "#185FA5"
@@ -79,14 +79,14 @@ def draw_edge(ax, a, b, share, touches_outcome):
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--threshold", type=int, default=25,
-                        help="draw a connection only if it appears in at least this many runs")
+    parser.add_argument("--threshold", type=int, default=125,
+                        help="draw a connection only if it appears in at least this many networks (of 250)")
     args = parser.parse_args()
 
     edges = pd.read_csv(EDGES_CSV)
-    pairs = edges.apply(lambda r: tuple(sorted([r["parent"], r["child"]])), axis=1)
-    edges["a"], edges["b"] = pairs.str[0], pairs.str[1]      # direction ignored
-    n_runs = edges[["seed", "fold"]].drop_duplicates().shape[0]
+    ends = edges["pair"].str.split(" - ", expand=True)       # direction is ignored
+    edges["a"], edges["b"] = ends[0], ends[1]
+    n_runs = edges[["hash", "seed", "fold"]].drop_duplicates().shape[0]
     counts = edges.groupby(["method", "a", "b"]).size()
 
     fig, axes = plt.subplots(2, 2, figsize=(13, 9.5))
@@ -110,8 +110,8 @@ def main():
     ]
     fig.legend(handles=handles, loc="lower center", ncol=4, fontsize=9, frameon=False)
     fig.text(0.5, 0.045,
-             f"Line width is proportional to the share of the {n_runs} runs in which the connection "
-             f"was learned (drawn if found in at least {args.threshold}). Direction is not shown.",
+             f"Line width is proportional to the share of the {n_runs} networks (5 hash seeds \u00D7 5 splits \u00D7 10 folds) "
+             f"in which the connection was learned (drawn if found in at least {args.threshold}). Direction is not shown.",
              ha="center", fontsize=8.5)
     fig.suptitle("Learned Bayesian Network structures on Pima, by imputation method",
                  fontsize=12, fontweight="bold")

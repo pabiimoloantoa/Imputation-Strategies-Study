@@ -1,3 +1,5 @@
+import os
+
 import pandas as pd
 from sklearn.metrics import roc_auc_score, f1_score, precision_score, recall_score
 
@@ -36,7 +38,7 @@ def run_fold(make_imputer, X_tr, X_te, y_tr, y_te):
     tr_filled = imp.fit_transform(X_tr)      # learn from training patients only
     te_filled = imp.transform(X_te)          # fill test patients with what was learned
 
-    disc = Discretizer(N_BINS).fit(tr_filled)
+    disc = Discretizer(N_BINS).fit(X_tr)
     D_tr, D_te = disc.transform(tr_filled), disc.transform(te_filled)
     D_tr["Outcome"] = y_tr.to_numpy()        # Outcome goes back in only for the network
 
@@ -54,6 +56,9 @@ def run_fold(make_imputer, X_tr, X_te, y_tr, y_te):
 
 
 def main():
+    tag = os.environ.get("PYTHONHASHSEED", "unset")
+    print("PYTHONHASHSEED =", tag)
+
     df = load_pima()
     X, y = df.drop(columns="Outcome"), df["Outcome"]
 
@@ -65,11 +70,11 @@ def main():
                 scores = run_fold(make_imputer, X.iloc[tr], X.iloc[te],
                                   y.iloc[tr], y.iloc[te])
                 rows.append({"method": name, "seed": seed, "fold": k, **scores})
-                print(seed, name, k, round(scores["auc"], 3))
+                print(tag, seed, name, k, round(scores["auc"], 3))
 
     results = pd.DataFrame(rows)
     OUT_DIR.mkdir(parents=True, exist_ok=True)
-    results.to_csv(OUT_DIR / "fold_scores_repeated.csv", index=False)
+    results.to_csv(OUT_DIR / f"fold_scores_repeated_obsbins_hash{tag}.csv", index=False)
     print(results.groupby("method")[["auc", "f1", "precision", "recall"]]
           .agg(["mean", "std"]).round(3))
 

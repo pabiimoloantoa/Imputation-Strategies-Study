@@ -17,8 +17,6 @@ except ImportError:
 
 
 class Discretizer:
-    """Cuts each numeric column into groups using the TRAINING data only.
-    Columns listed in fixed_edges use those cut points instead of quantiles."""
 
     def __init__(self, n_bins=3, fixed_edges=None):
         self.n_bins = n_bins
@@ -31,7 +29,7 @@ class Discretizer:
             if c in self.fixed_edges:
                 self.edges_[c] = np.array(self.fixed_edges[c], dtype=float)
             else:
-                self.edges_[c] = np.unique(np.quantile(df[c], qs))
+                self.edges_[c] = np.unique(np.nanquantile(df[c], qs))
         self.n_states_ = {c: len(e) + 1 for c, e in self.edges_.items()}
         return self
 
@@ -43,7 +41,6 @@ class Discretizer:
 
 
 class BNClassifier:
-    """Learns a Bayesian Network (structure + probability tables) and predicts Outcome."""
 
     def __init__(self, target="Outcome", ess=10, max_indegree=3):
         self.target = target
@@ -66,6 +63,6 @@ class BNClassifier:
         return self
 
     def predict_proba(self, X):
-        """Probability that Outcome = 1 for each row of X (X has no Outcome column)."""
+        
         probs = self.model_.predict_probability(X)
         return probs[f"{self.target}_1"].to_numpy()

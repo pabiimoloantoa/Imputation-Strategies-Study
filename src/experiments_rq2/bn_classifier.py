@@ -25,7 +25,7 @@ class Discretizer:
     def fit(self, df):
         qs = np.linspace(0, 1, self.n_bins + 1)[1:-1]
         # np.unique handles columns with many ties (e.g. Pregnancies)
-        self.edges_ = {c: np.unique(np.quantile(df[c], qs)) for c in df.columns}
+        self.edges_ = {c: np.unique(np.nanquantile(df[c], qs)) for c in df.columns}
         self.n_states_ = {c: len(e) + 1 for c, e in self.edges_.items()}
         return self
 

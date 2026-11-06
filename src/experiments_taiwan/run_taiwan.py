@@ -1,3 +1,8 @@
+'''
+$env:PYTHONHASHSEED = "0"
+python run_taiwan.py
+'''
+
 import json
 import time
 import warnings
@@ -18,9 +23,9 @@ warnings.filterwarnings("ignore")
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = PROJECT_ROOT / "data" / "taiwan"
 
-QUICK_TEST = False            # True: one seed, one level, 2 folds, saved to a separate test folder.
+QUICK_TEST = False           # True: one seed, one level, 2 folds, saved to a separate test folder.
                              # False: the full run, saved to results/taiwan.
-OUT_DIR = PROJECT_ROOT / "results" / ("taiwan_quicktest" if QUICK_TEST else "taiwan")
+OUT_DIR = PROJECT_ROOT / "results" / ("taiwan_quicktest" if QUICK_TEST else "taiwan_obsbins")
 
 SEEDS = [42, 43, 44, 45, 46]
 LEVELS = [10, 20, 30, 40]
@@ -57,7 +62,7 @@ def run_pipeline(imp, X_tr, X_te, y_tr, y_te):
     tr_f = imp.fit_transform(X_tr)           # learn from the training customers only
     te_f = imp.transform(X_te)               # fill the test customers with what was learned
 
-    disc = Discretizer(N_BINS, fixed_edges=PAY_EDGES).fit(tr_f)
+    disc = Discretizer(N_BINS, fixed_edges=PAY_EDGES).fit(X_tr)
     D_tr, D_te = disc.transform(tr_f), disc.transform(te_f)
     D_tr["Outcome"] = y_tr.to_numpy()        # Outcome goes back in only for the network
     names = {c: list(range(k)) for c, k in disc.n_states_.items()}

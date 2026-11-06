@@ -1,0 +1,9 @@
+,Median,EM,MICE,SoftImpute
+Pregnancies,33,10,50,39
+Glucose,250,250,250,250
+BloodPressure,15,70,40,30
+SkinThickness,96,141,70,85
+Insulin,0,2,6,0
+BMI,228,108,156,144
+DiabetesPedigreeFunction,135,245,235,190
+Age,222,236,212,213

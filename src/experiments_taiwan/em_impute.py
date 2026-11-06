@@ -3,11 +3,6 @@ import pandas as pd
 
 
 class EMImputer:
-    """EM for continuous data with the full M-step.
-
-    fit(train)       -> learns the column averages (mu) and relationships (cov)
-    transform(any)   -> fills blanks in any table using what fit() learned
-    """
 
     def __init__(self, max_iter=100, tol=1e-4, reg=1e-6):
         self.max_iter = max_iter
@@ -15,8 +10,7 @@ class EMImputer:
         self.reg = reg
 
     def _fill(self, X):
-        """Fill blanks with their expected values, and also return how uncertain
-        those guesses are (needed so the M-step does not understate the spread)."""
+       
         X = X.copy()
         miss = np.isnan(X)
         extra = np.zeros((X.shape[1], X.shape[1]))

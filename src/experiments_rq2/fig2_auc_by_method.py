@@ -7,7 +7,7 @@ from load_pima import PROJECT_ROOT
 FIG_DIR = PROJECT_ROOT / "results" / "rq2" / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
 
-d = pd.read_csv(PROJECT_ROOT / "results" / "rq2" / "fold_scores_repeated.csv")
+d = pd.read_csv(PROJECT_ROOT / "results" / "rq2" / "fold_scores_hash_averaged_obsbins.csv")
 
 order = ["Median", "EM", "MICE", "SoftImpute"]
 labels = ["Median", "EM", "MICE", "Soft-Impute"]

@@ -1,0 +1,382 @@
+{
+  "requested_seed": 16,
+  "actual_generation_seed": 1016,
+  "fallback_used": true,
+  "edges": [
+    [
+      "Age",
+      "EmploymentStatus"
+    ],
+    [
+      "Age",
+      "CreditUtilization"
+    ],
+    [
+      "Age",
+      "NumberOfCreditInquiries"
+    ],
+    [
+      "Age",
+      "Default"
+    ],
+    [
+      "EmploymentStatus",
+      "CreditUtilization"
+    ],
+    [
+      "EmploymentStatus",
+      "LoanAmount"
+    ],
+    [
+      "EmploymentStatus",
+      "NumberOfDefaults"
+    ],
+    [
+      "Income",
+      "Age"
+    ],
+    [
+      "Income",
+      "EmploymentStatus"
+    ],
+    [
+      "Income",
+      "LoanAmount"
+    ],
+    [
+      "Income",
+      "NumberOfCreditInquiries"
+    ],
+    [
+      "Income",
+      "PaymentHistory"
+    ],
+    [
+      "DebtRatio",
+      "Income"
+    ],
+    [
+      "DebtRatio",
+      "CreditUtilization"
+    ],
+    [
+      "DebtRatio",
+      "NumberOfCreditInquiries"
+    ],
+    [
+      "DebtRatio",
+      "PaymentHistory"
+    ],
+    [
+      "LoanAmount",
+      "PaymentHistory"
+    ],
+    [
+      "CreditHistoryLength",
+      "Age"
+    ],
+    [
+      "CreditHistoryLength",
+      "EmploymentStatus"
+    ],
+    [
+      "CreditHistoryLength",
+      "LoanAmount"
+    ],
+    [
+      "CreditHistoryLength",
+      "NumberOfDefaults"
+    ],
+    [
+      "CreditHistoryLength",
+      "Default"
+    ],
+    [
+      "NumberOfCreditInquiries",
+      "NumberOfDefaults"
+    ]
+  ],
+  "r_node_edges": [
+    [
+      "Income",
+      "R_LoanAmount_10pct"
+    ],
+    [
+      "Income",
+      "R_LoanAmount_20pct"
+    ],
+    [
+      "Income",
+      "R_LoanAmount_30pct"
+    ],
+    [
+      "Income",
+      "R_LoanAmount_40pct"
+    ],
+    [
+      "DebtRatio",
+      "R_CreditUtilization_10pct"
+    ],
+    [
+      "DebtRatio",
+      "R_CreditUtilization_20pct"
+    ],
+    [
+      "DebtRatio",
+      "R_CreditUtilization_30pct"
+    ],
+    [
+      "DebtRatio",
+      "R_CreditUtilization_40pct"
+    ],
+    [
+      "DebtRatio",
+      "R_NumberOfCreditInquiries_10pct"
+    ],
+    [
+      "DebtRatio",
+      "R_NumberOfCreditInquiries_20pct"
+    ],
+    [
+      "DebtRatio",
+      "R_NumberOfCreditInquiries_30pct"
+    ],
+    [
+      "DebtRatio",
+      "R_NumberOfCreditInquiries_40pct"
+    ],
+    [
+      "CreditHistoryLength",
+      "R_Age_10pct"
+    ],
+    [
+      "CreditHistoryLength",
+      "R_Age_20pct"
+    ],
+    [
+      "CreditHistoryLength",
+      "R_Age_30pct"
+    ],
+    [
+      "CreditHistoryLength",
+      "R_Age_40pct"
+    ],
+    [
+      "Income",
+      "R_EmploymentStatus_10pct"
+    ],
+    [
+      "Income",
+      "R_EmploymentStatus_20pct"
+    ],
+    [
+      "Income",
+      "R_EmploymentStatus_30pct"
+    ],
+    [
+      "Income",
+      "R_EmploymentStatus_40pct"
+    ]
+  ],
+  "vm_vars": [
+    "LoanAmount",
+    "CreditUtilization",
+    "NumberOfCreditInquiries",
+    "Age",
+    "EmploymentStatus"
+  ],
+  "vo_vars": [
+    "Income",
+    "DebtRatio",
+    "PaymentHistory",
+    "NumberOfDefaults",
+    "CreditHistoryLength",
+    "Default"
+  ],
+  "r_parents": {
+    "LoanAmount": "Income",
+    "CreditUtilization": "DebtRatio",
+    "NumberOfCreditInquiries": "DebtRatio",
+    "Age": "CreditHistoryLength",
+    "EmploymentStatus": "Income"
+  },
+  "cpts": {
+    "LoanAmount": {
+      "0.1": {
+        "low": 0.0623,
+        "medium": 0.0935,
+        "high": 0.1247
+      },
+      "0.2": {
+        "low": 0.1247,
+        "medium": 0.187,
+        "high": 0.2493
+      },
+      "0.3": {
+        "low": 0.187,
+        "medium": 0.2805,
+        "high": 0.374
+      },
+      "0.4": {
+        "low": 0.2493,
+        "medium": 0.374,
+        "high": 0.4986
+      }
+    },
+    "CreditUtilization": {
+      "0.1": {
+        "low": 0.064,
+        "medium": 0.0961,
+        "high": 0.1281
+      },
+      "0.2": {
+        "low": 0.1281,
+        "medium": 0.1921,
+        "high": 0.2562
+      },
+      "0.3": {
+        "low": 0.1921,
+        "medium": 0.2882,
+        "high": 0.3843
+      },
+      "0.4": {
+        "low": 0.2562,
+        "medium": 0.3843,
+        "high": 0.5124
+      }
+    },
+    "NumberOfCreditInquiries": {
+      "0.1": {
+        "low": 0.064,
+        "medium": 0.0961,
+        "high": 0.1281
+      },
+      "0.2": {
+        "low": 0.1281,
+        "medium": 0.1921,
+        "high": 0.2562
+      },
+      "0.3": {
+        "low": 0.1921,
+        "medium": 0.2882,
+        "high": 0.3843
+      },
+      "0.4": {
+        "low": 0.2562,
+        "medium": 0.3843,
+        "high": 0.5124
+      }
+    },
+    "Age": {
+      "0.1": {
+        "short": 0.064,
+        "medium": 0.0961,
+        "long": 0.1281
+      },
+      "0.2": {
+        "short": 0.1281,
+        "medium": 0.1921,
+        "long": 0.2562
+      },
+      "0.3": {
+        "short": 0.1921,
+        "medium": 0.2882,
+        "long": 0.3843
+      },
+      "0.4": {
+        "short": 0.2562,
+        "medium": 0.3843,
+        "long": 0.5124
+      }
+    },
+    "EmploymentStatus": {
+      "0.1": {
+        "low": 0.0623,
+        "medium": 0.0935,
+        "high": 0.1247
+      },
+      "0.2": {
+        "low": 0.1247,
+        "medium": 0.187,
+        "high": 0.2493
+      },
+      "0.3": {
+        "low": 0.187,
+        "medium": 0.2805,
+        "high": 0.374
+      },
+      "0.4": {
+        "low": 0.2493,
+        "medium": 0.374,
+        "high": 0.4986
+      }
+    }
+  },
+  "expected_rates": {
+    "0.1": {
+      "LoanAmount": 0.1,
+      "CreditUtilization": 0.1,
+      "NumberOfCreditInquiries": 0.1,
+      "Age": 0.1,
+      "EmploymentStatus": 0.1
+    },
+    "0.2": {
+      "LoanAmount": 0.2,
+      "CreditUtilization": 0.2,
+      "NumberOfCreditInquiries": 0.2,
+      "Age": 0.2,
+      "EmploymentStatus": 0.2
+    },
+    "0.3": {
+      "LoanAmount": 0.3,
+      "CreditUtilization": 0.3,
+      "NumberOfCreditInquiries": 0.3,
+      "Age": 0.3,
+      "EmploymentStatus": 0.3
+    },
+    "0.4": {
+      "LoanAmount": 0.4,
+      "CreditUtilization": 0.4,
+      "NumberOfCreditInquiries": 0.4,
+      "Age": 0.4,
+      "EmploymentStatus": 0.4
+    }
+  },
+  "achieved_rates": {
+    "0.1": {
+      "LoanAmount": 0.1042,
+      "CreditUtilization": 0.1064,
+      "NumberOfCreditInquiries": 0.0936,
+      "Age": 0.1166,
+      "EmploymentStatus": 0.0922
+    },
+    "0.2": {
+      "LoanAmount": 0.2008,
+      "CreditUtilization": 0.197,
+      "NumberOfCreditInquiries": 0.2036,
+      "Age": 0.1954,
+      "EmploymentStatus": 0.2054
+    },
+    "0.3": {
+      "LoanAmount": 0.2954,
+      "CreditUtilization": 0.2916,
+      "NumberOfCreditInquiries": 0.2956,
+      "Age": 0.3062,
+      "EmploymentStatus": 0.3042
+    },
+    "0.4": {
+      "LoanAmount": 0.402,
+      "CreditUtilization": 0.405,
+      "NumberOfCreditInquiries": 0.3916,
+      "Age": 0.403,
+      "EmploymentStatus": 0.4014
+    }
+  },
+  "validity_checks": {
+    "is_valid_bn": true,
+    "is_single_connected_component": true,
+    "n_connected_components": 1,
+    "isolated_nodes": [],
+    "max_in_degree_observed": 3
+  }
+}

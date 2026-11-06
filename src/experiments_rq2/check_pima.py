@@ -1,6 +1,5 @@
 import pandas as pd
 
-# change this to your actual file name
 PATH = r"C:\Users\pabal\Downloads\bn-imputation-study-v2\data\pima\diabetes.csv"
 
 df = pd.read_csv(PATH)

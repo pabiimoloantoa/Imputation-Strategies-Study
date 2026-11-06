@@ -1,10 +1,10 @@
 import pandas as pd
-
+import os
 from load_pima import load_pima, get_folds, PROJECT_ROOT
 from run_rq2_2 import IMPUTERS, N_BINS, SEEDS
 from bn_classifier import Discretizer, BNClassifier
 
-OUT = PROJECT_ROOT / "results" / "rq2" / "edge_counts.csv"
+OUT = PROJECT_ROOT / "results" / "rq2" / f"edge_counts_obsbins_hash{os.environ.get('PYTHONHASHSEED', 'unset')}.csv"
 
 df = load_pima()
 X, y = df.drop(columns="Outcome"), df["Outcome"]
@@ -15,7 +15,7 @@ for seed in SEEDS:
         for name, make in IMPUTERS.items():
             imp = make()
             tr_filled = imp.fit_transform(X.iloc[tr])
-            disc = Discretizer(N_BINS).fit(tr_filled)
+            disc = Discretizer(N_BINS).fit(X.iloc[tr])
             D = disc.transform(tr_filled)
             D["Outcome"] = y.iloc[tr].to_numpy()
             names = {c: list(range(n)) for c, n in disc.n_states_.items()}

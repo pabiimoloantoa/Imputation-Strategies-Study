@@ -1,0 +1,397 @@
+network unknown {
+}
+variable Age {
+    type discrete [ 3 ] { young, middle, senior };
+}
+variable CreditHistoryLength {
+    type discrete [ 3 ] { short, medium, long };
+}
+variable CreditUtilization {
+    type discrete [ 3 ] { low, medium, high };
+}
+variable DebtRatio {
+    type discrete [ 3 ] { low, medium, high };
+}
+variable Default {
+    type discrete [ 2 ] { 0, 1 };
+}
+variable EmploymentStatus {
+    type discrete [ 3 ] { employed, unemployed, self_employed };
+}
+variable Income {
+    type discrete [ 3 ] { low, medium, high };
+}
+variable LoanAmount {
+    type discrete [ 3 ] { low, medium, high };
+}
+variable NumberOfCreditInquiries {
+    type discrete [ 3 ] { low, medium, high };
+}
+variable NumberOfDefaults {
+    type discrete [ 3 ] { 0, 1, 2plus };
+}
+variable PaymentHistory {
+    type discrete [ 4 ] { poor, fair, good, excellent };
+}
+variable R_Age_10pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Age_20pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Age_30pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Age_40pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditHistoryLength_10pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditHistoryLength_20pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditHistoryLength_30pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditHistoryLength_40pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditUtilization_10pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditUtilization_20pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditUtilization_30pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_CreditUtilization_40pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Default_10pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Default_20pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Default_30pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_Default_40pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_LoanAmount_10pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_LoanAmount_20pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_LoanAmount_30pct {
+    type discrete [ 2 ] { observed, missing };
+}
+variable R_LoanAmount_40pct {
+    type discrete [ 2 ] { observed, missing };
+}
+probability ( Age | NumberOfDefaults ) {
+    ( 0 ) 0.5646974827959642, 0.12600595209942736, 0.3092965651046084;
+    ( 1 ) 0.6425895314945219, 0.19038647722108396, 0.16702399128439413;
+    ( 2plus ) 0.2427317086933456, 0.3745750005393192, 0.3826932907673352;
+
+}
+probability ( CreditHistoryLength | PaymentHistory, EmploymentStatus, Age ) {
+    ( poor, employed, young ) 0.14368050990595843, 0.7524997609170629, 0.10381972917697863;
+    ( poor, employed, middle ) 0.6939658768241193, 0.281067985562144, 0.024966137613736734;
+    ( poor, employed, senior ) 0.33492780741413847, 0.5019370890935062, 0.16313510349235544;
+    ( poor, unemployed, young ) 0.029486651493335687, 0.22318565026272782, 0.7473276982439365;
+    ( poor, unemployed, middle ) 0.21941639527116719, 0.04905915477858981, 0.731524449950243;
+    ( poor, unemployed, senior ) 0.46834403162244603, 0.10130125487693345, 0.43035471350062066;
+    ( poor, self_employed, young ) 0.11118223431155522, 0.5458776853578834, 0.34294008033056134;
+    ( poor, self_employed, middle ) 0.14200562368076802, 0.5131044905702287, 0.3448898857490033;
+    ( poor, self_employed, senior ) 0.44889085369435056, 0.42891828831739853, 0.12219085798825104;
+    ( fair, employed, young ) 0.27067298841008386, 0.3035243445487814, 0.42580266704113484;
+    ( fair, employed, middle ) 0.22372442773095655, 0.20573370006072178, 0.5705418722083216;
+    ( fair, employed, senior ) 0.5885125880115654, 0.01942246252758808, 0.3920649494608466;
+    ( fair, unemployed, young ) 0.5266224877494862, 0.12697842086319056, 0.3463990913873232;
+    ( fair, unemployed, middle ) 0.17357985567717818, 0.6282443044533954, 0.19817583986942652;
+    ( fair, unemployed, senior ) 0.10264007916975434, 0.34200147607583914, 0.5553584447544064;
+    ( fair, self_employed, young ) 0.518756781229223, 0.4549030850614388, 0.02634013370933816;
+    ( fair, self_employed, middle ) 0.8459154698667355, 0.06898460312870891, 0.08509992700455554;
+    ( fair, self_employed, senior ) 0.539082997362233, 0.035824668324334036, 0.42509233431343296;
+    ( good, employed, young ) 0.42812162260035747, 0.44340356198618375, 0.1284748154134588;
+    ( good, employed, middle ) 0.2770054494975874, 0.29658320171853464, 0.426411348783878;
+    ( good, employed, senior ) 0.4828684266818738, 0.15196667884987133, 0.3651648944682548;
+    ( good, unemployed, young ) 0.1915456368926744, 0.29725818022837674, 0.5111961828789489;
+    ( good, unemployed, middle ) 0.42449559467382086, 0.0684102298185536, 0.5070941755076255;
+    ( good, unemployed, senior ) 0.35861948280443623, 0.12803871150404664, 0.5133418056915171;
+    ( good, self_employed, young ) 0.30483220554182916, 0.02121474896088707, 0.6739530454972837;
+    ( good, self_employed, middle ) 0.2508648956465851, 0.3558293416399841, 0.3933057627134307;
+    ( good, self_employed, senior ) 0.2763893878926873, 0.5477287744479875, 0.17588183765932516;
+    ( excellent, employed, young ) 0.5157082888440072, 0.08177434394451236, 0.40251736721148046;
+    ( excellent, employed, middle ) 0.49556200756613233, 0.4223780622863357, 0.08205993014753196;
+    ( excellent, employed, senior ) 0.16775554855309543, 0.2549078255672291, 0.5773366258796755;
+    ( excellent, unemployed, young ) 0.3551136146737571, 0.04707767049745931, 0.5978087148287835;
+    ( excellent, unemployed, middle ) 0.15655826760634356, 0.3380297966723942, 0.5054119357212623;
+    ( excellent, unemployed, senior ) 0.04782052752057321, 0.5153652006940578, 0.436814271785369;
+    ( excellent, self_employed, young ) 0.9349349048418453, 0.0281159615917025, 0.03694913356645222;
+    ( excellent, self_employed, middle ) 0.269645384846359, 0.5049467712390182, 0.22540784391462287;
+    ( excellent, self_employed, senior ) 0.29484118358243505, 0.3796428958812481, 0.32551592053631684;
+
+}
+probability ( CreditUtilization | Age, EmploymentStatus ) {
+    ( young, employed ) 0.08203867034268746, 0.3968143625979454, 0.5211469670593672;
+    ( young, unemployed ) 0.3522624486886927, 0.2603408464358591, 0.3873967048754482;
+    ( young, self_employed ) 0.28727566037496827, 0.24423991247984894, 0.46848442714518274;
+    ( middle, employed ) 0.03201750238387917, 0.7397458823672007, 0.22823661524892014;
+    ( middle, unemployed ) 0.15141386306034488, 0.28180000469852406, 0.5667861322411311;
+    ( middle, self_employed ) 0.5989216359529669, 0.089022928910297, 0.3120554351367362;
+    ( senior, employed ) 0.05811549114249042, 0.6503398662068333, 0.29154464265067637;
+    ( senior, unemployed ) 0.09324650942096609, 0.48167436384805534, 0.4250791267309785;
+    ( senior, self_employed ) 0.5591519718979849, 0.30211007584480065, 0.1387379522572144;
+
+}
+probability ( DebtRatio | NumberOfDefaults, Age, Income ) {
+    ( 0, young, low ) 0.07236611742141745, 0.45152214400953716, 0.47611173856904543;
+    ( 0, young, medium ) 0.25545129696951224, 0.4437638785755163, 0.30078482445497146;
+    ( 0, young, high ) 0.5789384173420442, 0.12393038041312737, 0.29713120224482853;
+    ( 0, middle, low ) 0.0352818073472746, 0.5744076854649571, 0.3903105071877683;
+    ( 0, middle, medium ) 0.2876214602626695, 0.5388692529960531, 0.1735092867412774;
+    ( 0, middle, high ) 0.7839635873135896, 0.0702003080112508, 0.14583610467515953;
+    ( 0, senior, low ) 0.07106363153371043, 0.9041257495084372, 0.024810618957852425;
+    ( 0, senior, medium ) 0.09277205009389897, 0.30735923335229787, 0.5998687165538031;
+    ( 0, senior, high ) 0.606998990198765, 0.0945331436876666, 0.2984678661135683;
+    ( 1, young, low ) 0.43719223066904084, 0.4733824697034705, 0.08942529962748863;
+    ( 1, young, medium ) 0.2815761204764546, 0.154309663083073, 0.5641142164404724;
+    ( 1, young, high ) 0.31793491465814505, 0.5604262908031122, 0.12163879453874266;
+    ( 1, middle, low ) 0.7037210939270852, 0.23053999242913278, 0.06573891364378205;
+    ( 1, middle, medium ) 0.30361294744206796, 0.03647505181635341, 0.6599120007415786;
+    ( 1, middle, high ) 0.1117607585221882, 0.16263248546206546, 0.7256067560157463;
+    ( 1, senior, low ) 0.6789167138772592, 0.2978708327821708, 0.023212453340569927;
+    ( 1, senior, medium ) 0.34476391216426155, 0.24115769438284868, 0.4140783934528897;
+    ( 1, senior, high ) 0.31850970317766725, 0.5632758425222303, 0.11821445430010244;
+    ( 2plus, young, low ) 0.5082370699921949, 0.4339524243768034, 0.05781050563100174;
+    ( 2plus, young, medium ) 0.6058039868491379, 0.3743781968564977, 0.019817816294364327;
+    ( 2plus, young, high ) 0.7599469609703858, 0.013075349153239399, 0.2269776898763747;
+    ( 2plus, middle, low ) 0.18737497553865978, 0.14643313115518675, 0.6661918933061534;
+    ( 2plus, middle, medium ) 0.27099207991592256, 0.4876493118746682, 0.24135860820940916;
+    ( 2plus, middle, high ) 0.26923970705273925, 0.2559294356580622, 0.47483085728919855;
+    ( 2plus, senior, low ) 0.2800376956839806, 0.5477809219069493, 0.1721813824090702;
+    ( 2plus, senior, medium ) 0.6153182131177869, 0.056860244886747464, 0.32782154199546565;
+    ( 2plus, senior, high ) 0.4460751442279257, 0.06455122646259236, 0.489373629309482;
+
+}
+probability ( Default | NumberOfCreditInquiries, NumberOfDefaults, CreditUtilization ) {
+    ( low, 0, low ) 0.138132733159082, 0.861867266840918;
+    ( low, 0, medium ) 0.3653400353766514, 0.6346599646233486;
+    ( low, 0, high ) 0.8236792118117389, 0.17632078818826116;
+    ( low, 1, low ) 0.05786848512762622, 0.9421315148723738;
+    ( low, 1, medium ) 0.34800325720373, 0.65199674279627;
+    ( low, 1, high ) 0.9178140068955344, 0.08218599310446559;
+    ( low, 2plus, low ) 0.07287162156930732, 0.9271283784306926;
+    ( low, 2plus, medium ) 0.23185402874497676, 0.7681459712550233;
+    ( low, 2plus, high ) 0.8652475929164348, 0.1347524070835652;
+    ( medium, 0, low ) 0.4801278033424251, 0.5198721966575748;
+    ( medium, 0, medium ) 0.645986015366341, 0.354013984633659;
+    ( medium, 0, high ) 0.3619637487190553, 0.6380362512809447;
+    ( medium, 1, low ) 0.7532381517373488, 0.24676184826265127;
+    ( medium, 1, medium ) 0.8927481948910604, 0.10725180510893961;
+    ( medium, 1, high ) 0.407301422219425, 0.592698577780575;
+    ( medium, 2plus, low ) 0.6950505421564026, 0.30494945784359745;
+    ( medium, 2plus, medium ) 0.5884130373617503, 0.4115869626382496;
+    ( medium, 2plus, high ) 0.3612099390049054, 0.6387900609950945;
+    ( high, 0, low ) 0.5394212873627621, 0.460578712637238;
+    ( high, 0, medium ) 0.6180524364958979, 0.38194756350410203;
+    ( high, 0, high ) 0.9830854181282965, 0.016914581871703457;
+    ( high, 1, low ) 0.5613254195486376, 0.43867458045136243;
+    ( high, 1, medium ) 0.3572070847285446, 0.6427929152714553;
+    ( high, 1, high ) 0.5126723662075541, 0.48732763379244587;
+    ( high, 2plus, low ) 0.33828388216120364, 0.6617161178387964;
+    ( high, 2plus, medium ) 0.9154090045439036, 0.08459099545609643;
+    ( high, 2plus, high ) 0.8735842287673079, 0.1264157712326921;
+
+}
+probability ( EmploymentStatus | Income, NumberOfDefaults ) {
+    ( low, 0 ) 0.08203867034268746, 0.3968143625979454, 0.5211469670593672;
+    ( low, 1 ) 0.3522624486886927, 0.2603408464358591, 0.3873967048754482;
+    ( low, 2plus ) 0.28727566037496827, 0.24423991247984894, 0.46848442714518274;
+    ( medium, 0 ) 0.03201750238387917, 0.7397458823672007, 0.22823661524892014;
+    ( medium, 1 ) 0.15141386306034488, 0.28180000469852406, 0.5667861322411311;
+    ( medium, 2plus ) 0.5989216359529669, 0.089022928910297, 0.3120554351367362;
+    ( high, 0 ) 0.05811549114249042, 0.6503398662068333, 0.29154464265067637;
+    ( high, 1 ) 0.09324650942096609, 0.48167436384805534, 0.4250791267309785;
+    ( high, 2plus ) 0.5591519718979849, 0.30211007584480065, 0.1387379522572144;
+
+}
+probability ( Income ) {
+    table 0.1045841923653602, 0.4061327654817379, 0.4892830421529019 ;
+}
+probability ( LoanAmount | EmploymentStatus, NumberOfCreditInquiries, CreditHistoryLength ) {
+    ( employed, low, short ) 0.07236611742141745, 0.45152214400953716, 0.47611173856904543;
+    ( employed, low, medium ) 0.25545129696951224, 0.4437638785755163, 0.30078482445497146;
+    ( employed, low, long ) 0.5789384173420442, 0.12393038041312737, 0.29713120224482853;
+    ( employed, medium, short ) 0.0352818073472746, 0.5744076854649571, 0.3903105071877683;
+    ( employed, medium, medium ) 0.2876214602626695, 0.5388692529960531, 0.1735092867412774;
+    ( employed, medium, long ) 0.7839635873135896, 0.0702003080112508, 0.14583610467515953;
+    ( employed, high, short ) 0.07106363153371043, 0.9041257495084372, 0.024810618957852425;
+    ( employed, high, medium ) 0.09277205009389897, 0.30735923335229787, 0.5998687165538031;
+    ( employed, high, long ) 0.606998990198765, 0.0945331436876666, 0.2984678661135683;
+    ( unemployed, low, short ) 0.43719223066904084, 0.4733824697034705, 0.08942529962748863;
+    ( unemployed, low, medium ) 0.2815761204764546, 0.154309663083073, 0.5641142164404724;
+    ( unemployed, low, long ) 0.31793491465814505, 0.5604262908031122, 0.12163879453874266;
+    ( unemployed, medium, short ) 0.7037210939270852, 0.23053999242913278, 0.06573891364378205;
+    ( unemployed, medium, medium ) 0.30361294744206796, 0.03647505181635341, 0.6599120007415786;
+    ( unemployed, medium, long ) 0.1117607585221882, 0.16263248546206546, 0.7256067560157463;
+    ( unemployed, high, short ) 0.6789167138772592, 0.2978708327821708, 0.023212453340569927;
+    ( unemployed, high, medium ) 0.34476391216426155, 0.24115769438284868, 0.4140783934528897;
+    ( unemployed, high, long ) 0.31850970317766725, 0.5632758425222303, 0.11821445430010244;
+    ( self_employed, low, short ) 0.5082370699921949, 0.4339524243768034, 0.05781050563100174;
+    ( self_employed, low, medium ) 0.6058039868491379, 0.3743781968564977, 0.019817816294364327;
+    ( self_employed, low, long ) 0.7599469609703858, 0.013075349153239399, 0.2269776898763747;
+    ( self_employed, medium, short ) 0.18737497553865978, 0.14643313115518675, 0.6661918933061534;
+    ( self_employed, medium, medium ) 0.27099207991592256, 0.4876493118746682, 0.24135860820940916;
+    ( self_employed, medium, long ) 0.26923970705273925, 0.2559294356580622, 0.47483085728919855;
+    ( self_employed, high, short ) 0.2800376956839806, 0.5477809219069493, 0.1721813824090702;
+    ( self_employed, high, medium ) 0.6153182131177869, 0.056860244886747464, 0.32782154199546565;
+    ( self_employed, high, long ) 0.4460751442279257, 0.06455122646259236, 0.489373629309482;
+
+}
+probability ( NumberOfCreditInquiries | PaymentHistory ) {
+    ( poor ) 0.10497028554647204, 0.12077326630449234, 0.7742564481490357;
+    ( fair ) 0.2436247523336523, 0.4529245087633131, 0.3034507389030348;
+    ( good ) 0.5778570372830109, 0.06765276244645664, 0.35449020027053263;
+    ( excellent ) 0.042828813555726784, 0.19373497372771442, 0.7634362127165588;
+
+}
+probability ( NumberOfDefaults ) {
+    table 0.1045841923653602, 0.4061327654817379, 0.4892830421529019 ;
+}
+probability ( PaymentHistory | NumberOfDefaults ) {
+    ( 0 ) 0.15133679932781285, 0.033769120755707614, 0.082890314959896, 0.7320037649565835;
+    ( 1 ) 0.4356810544617595, 0.12908361727901685, 0.11324365722851325, 0.3219916710307105;
+    ( 2plus ) 0.2012085210488494, 0.3104978837997796, 0.31722740908107727, 0.1710661860702937;
+
+}
+probability ( R_Age_10pct | NumberOfDefaults ) {
+    ( 0 ) 0.9409, 0.0591;
+    ( 1 ) 0.9114, 0.0886;
+    ( 2plus ) 0.8818, 0.1182;
+
+}
+probability ( R_Age_20pct | NumberOfDefaults ) {
+    ( 0 ) 0.8818, 0.1182;
+    ( 1 ) 0.8227, 0.1773;
+    ( 2plus ) 0.7636000000000001, 0.2364;
+
+}
+probability ( R_Age_30pct | NumberOfDefaults ) {
+    ( 0 ) 0.8227, 0.1773;
+    ( 1 ) 0.7341, 0.2659;
+    ( 2plus ) 0.6455, 0.3545;
+
+}
+probability ( R_Age_40pct | NumberOfDefaults ) {
+    ( 0 ) 0.7636000000000001, 0.2364;
+    ( 1 ) 0.6455, 0.3545;
+    ( 2plus ) 0.5273, 0.4727;
+
+}
+probability ( R_CreditHistoryLength_10pct | PaymentHistory ) {
+    ( poor ) 0.9429, 0.0571;
+    ( fair ) 0.9143, 0.0857;
+    ( good ) 0.8857, 0.1143;
+    ( excellent ) 0.8572, 0.1428;
+
+}
+probability ( R_CreditHistoryLength_20pct | PaymentHistory ) {
+    ( poor ) 0.8857, 0.1143;
+    ( fair ) 0.8286, 0.1714;
+    ( good ) 0.7715, 0.2285;
+    ( excellent ) 0.7142999999999999, 0.2857;
+
+}
+probability ( R_CreditHistoryLength_30pct | PaymentHistory ) {
+    ( poor ) 0.8286, 0.1714;
+    ( fair ) 0.7429, 0.2571;
+    ( good ) 0.6572, 0.3428;
+    ( excellent ) 0.5715, 0.4285;
+
+}
+probability ( R_CreditHistoryLength_40pct | PaymentHistory ) {
+    ( poor ) 0.7715, 0.2285;
+    ( fair ) 0.6572, 0.3428;
+    ( good ) 0.5428999999999999, 0.4571;
+    ( excellent ) 0.42869999999999997, 0.5713;
+
+}
+probability ( R_CreditUtilization_10pct | EmploymentStatus ) {
+    ( employed ) 0.9336, 0.0664;
+    ( unemployed ) 0.9004, 0.0996;
+    ( self_employed ) 0.8672, 0.1328;
+
+}
+probability ( R_CreditUtilization_20pct | EmploymentStatus ) {
+    ( employed ) 0.8672, 0.1328;
+    ( unemployed ) 0.8008, 0.1992;
+    ( self_employed ) 0.7344999999999999, 0.2655;
+
+}
+probability ( R_CreditUtilization_30pct | EmploymentStatus ) {
+    ( employed ) 0.8008, 0.1992;
+    ( unemployed ) 0.7013, 0.2987;
+    ( self_employed ) 0.6017, 0.3983;
+
+}
+probability ( R_CreditUtilization_40pct | EmploymentStatus ) {
+    ( employed ) 0.7344999999999999, 0.2655;
+    ( unemployed ) 0.6017, 0.3983;
+    ( self_employed ) 0.4689, 0.5311;
+
+}
+probability ( R_Default_10pct | NumberOfCreditInquiries ) {
+    ( low ) 0.9407, 0.0593;
+    ( medium ) 0.911, 0.089;
+    ( high ) 0.8813, 0.1187;
+
+}
+probability ( R_Default_20pct | NumberOfCreditInquiries ) {
+    ( low ) 0.8813, 0.1187;
+    ( medium ) 0.8220000000000001, 0.178;
+    ( high ) 0.7626, 0.2374;
+
+}
+probability ( R_Default_30pct | NumberOfCreditInquiries ) {
+    ( low ) 0.8220000000000001, 0.178;
+    ( medium ) 0.733, 0.267;
+    ( high ) 0.6438999999999999, 0.3561;
+
+}
+probability ( R_Default_40pct | NumberOfCreditInquiries ) {
+    ( low ) 0.7626, 0.2374;
+    ( medium ) 0.6438999999999999, 0.3561;
+    ( high ) 0.5252, 0.4748;
+
+}
+probability ( R_LoanAmount_10pct | EmploymentStatus ) {
+    ( employed ) 0.9336, 0.0664;
+    ( unemployed ) 0.9004, 0.0996;
+    ( self_employed ) 0.8672, 0.1328;
+
+}
+probability ( R_LoanAmount_20pct | EmploymentStatus ) {
+    ( employed ) 0.8672, 0.1328;
+    ( unemployed ) 0.8008, 0.1992;
+    ( self_employed ) 0.7344999999999999, 0.2655;
+
+}
+probability ( R_LoanAmount_30pct | EmploymentStatus ) {
+    ( employed ) 0.8008, 0.1992;
+    ( unemployed ) 0.7013, 0.2987;
+    ( self_employed ) 0.6017, 0.3983;
+
+}
+probability ( R_LoanAmount_40pct | EmploymentStatus ) {
+    ( employed ) 0.7344999999999999, 0.2655;
+    ( unemployed ) 0.6017, 0.3983;
+    ( self_employed ) 0.4689, 0.5311;
+
+}

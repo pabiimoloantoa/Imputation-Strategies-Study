@@ -1,60 +1,57 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
-from load_pima import load_pima, get_folds, PROJECT_ROOT
-from run_rq2_2 import IMPUTERS, N_BINS, SEEDS
-from bn_classifier import Discretizer, BNClassifier
+from load_pima import load_pima, PROJECT_ROOT
 
-FIG_DIR = PROJECT_ROOT / "results" / "rq2" / "figures"
+RES = PROJECT_ROOT / "results" / "rq2"
+FIG_DIR = RES / "figures"
 FIG_DIR.mkdir(parents=True, exist_ok=True)
-CSV = PROJECT_ROOT / "results" / "rq2" / "blanket_counts.csv"
 
-df = load_pima()
-X, y = df.drop(columns="Outcome"), df["Outcome"]
-n_runs = len(SEEDS) * 10
-
-# --- count how often each variable is in Outcome's Markov blanket ---
-if CSV.exists():
-    counts = pd.read_csv(CSV, index_col=0)          # reuse saved counts
-else:
-    counts = pd.DataFrame(0, index=X.columns, columns=list(IMPUTERS))
-    for seed in SEEDS:
-        for tr, te in get_folds(df, seed=seed):
-            for name, make in IMPUTERS.items():
-                imp = make()
-                tr_filled = imp.fit_transform(X.iloc[tr])
-                disc = Discretizer(N_BINS).fit(tr_filled)
-                D = disc.transform(tr_filled)
-                D["Outcome"] = y.iloc[tr].to_numpy()
-                names = {c: list(range(n)) for c, n in disc.n_states_.items()}
-                names["Outcome"] = [0, 1]
-                bn = BNClassifier().fit(D, names)
-                for v in bn.model_.get_markov_blanket("Outcome"):
-                    counts.loc[v, name] += 1
-        print("finished seed", seed)
-    counts.to_csv(CSV)
-
-# --- order the rows by how much of each variable is missing ---
-pct = (X.isna().mean() * 100).sort_values(ascending=False)
-counts = counts.loc[pct.index, list(IMPUTERS)]
-row_labels = [f"{v} ({p:.1f}% missing)" if p > 0 else f"{v} (complete)" for v, p in pct.items()]
+edges = pd.read_csv(RES / "edges_pooled.csv")
+X = load_pima().drop(columns="Outcome")
+methods = ["Median", "EM", "MICE", "SoftImpute"]
 col_labels = ["Median", "EM", "MICE", "Soft-Impute"]
+N_RUNS = 250    # 5 hash seeds x 5 splits x 10 folds
 
-# --- draw the heatmap ---
+
+def blanket(g):
+    """Variables directly tied to Outcome: its parents, its children, and the children's other parents."""
+    parents = {}
+    for p, c in zip(g["parent"], g["child"]):
+        parents.setdefault(c, set()).add(p)
+    kids = [c for c, ps in parents.items() if "Outcome" in ps]
+    b = set(parents.get("Outcome", set())) | set(kids)
+    for k in kids:
+        b |= parents[k]
+    b.discard("Outcome")
+    return b
+
+
+counts = pd.DataFrame(0, index=X.columns, columns=methods)
+for (m, h, s, f), g in edges.groupby(["method", "hash", "seed", "fold"]):
+    for v in blanket(g):
+        counts.loc[v, m] += 1
+counts.to_csv(RES / "blanket_counts_pooled.csv")
+print(counts)
+
+# rows ordered from the most to the least missing in the Pima data
+pct = (X.isna().mean() * 100).sort_values(ascending=False)
+counts = counts.loc[pct.index]
+row_labels = [f"{v} ({p:.1f}% missing)" if p > 0 else f"{v} (complete)" for v, p in pct.items()]
+
 fig, ax = plt.subplots(figsize=(6.8, 4.2))
-im = ax.imshow(counts.to_numpy(), cmap="Blues", vmin=0, vmax=n_runs, aspect="auto")
+im = ax.imshow(counts.to_numpy(), cmap="Blues", vmin=0, vmax=N_RUNS, aspect="auto")
 for i in range(counts.shape[0]):
     for j in range(counts.shape[1]):
         v = counts.iloc[i, j]
         ax.text(j, i, int(v), ha="center", va="center",
-                color="white" if v > n_runs / 2 else "black", fontsize=9)
-
+                color="white" if v > N_RUNS / 2 else "black", fontsize=9)
 ax.set_xticks(range(len(col_labels)))
 ax.set_xticklabels(col_labels)
 ax.set_yticks(range(len(row_labels)))
 ax.set_yticklabels(row_labels)
 cbar = fig.colorbar(im, ax=ax)
-cbar.set_label(f"Runs in which the variable affects the prediction (out of {n_runs})")
+cbar.set_label(f"Networks in which the variable affects the prediction (out of {N_RUNS})")
 fig.tight_layout()
 fig.savefig(FIG_DIR / "fig4_blanket.png", dpi=300)
 print("saved to", FIG_DIR / "fig4_blanket.png")
